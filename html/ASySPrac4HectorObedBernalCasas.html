@@ -1,0 +1,540 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Practica 4: Convoluci&oacute;n y Correlaci&oacute;n de se&ntilde;ales</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-12-22"><meta name="DC.source" content="Practica04.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Practica 4: Convoluci&oacute;n y Correlaci&oacute;n de se&ntilde;ales</h1><!--introduction--><p>Integrantes:</p><div><ol><li>Bernal Casas Hector Obed</li><li>Cueto Ch&aacute;vez Leonardo Daniel</li><li>Guti&eacute;rrez Alvirde Jos&eacute; Mart&iacute;n</li></ol></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos.</a></li><li><a href="#2">Introducci&oacute;n.</a></li><li><a href="#10">Problema 1 Grafique el problema PR04_1</a></li><li><a href="#13">Problema 2 Grafique el problema PR05 e)</a></li><li><a href="#16">Problema 3 Realice la simuaci&oacute;n de la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1-1 de Lathi</a></li><li><a href="#18">Problema 4 Realice la simuaci&oacute;n de la correlaci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1-1 de Lathi</a></li><li><a href="#21">Problema 5 Realice la la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1-1 utilizando el comando conv de MATLAB</a></li></ul></div><h2 id="1">Objetivos.</h2><div><ul><li>Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica</li><li>Manipulaci&oacute;n de instrucciones en MATLAB</li><li>Simular convoluciones y correlaciones de se&ntilde;ales continuas</li><li>Simular convoluciones y correlaciones de se&ntilde;ales discretas</li></ul></div><h2 id="2">Introducci&oacute;n.</h2><p>Existen varios m&eacute;todos num&eacute;ricos para la simulaci&oacute;n num&eacute;rica de integrales. A continuacion veremos 5 ejemplos de estos m&eacute;todos num&eacute;ricos.</p><p><b>Teorema fundamental del C&aacute;lculo</b></p><p>La integral <img src="Practica04_eq11221032582540334157.png" alt="$\int_{a}^{b} f(x) \,dx$" style="width:63px;height:21px;"> se asocia a un &aacute;rea definida por la grafica de f(x), la recta <img src="Practica04_eq15418284719561601288.png" alt="$l_1=((a,0),(a,f(a)))$" style="width:133px;height:15px;">, la recta <img src="Practica04_eq14914264032219549658.png" alt="$l_2=((b,0),(b,f(b)))$" style="width:128px;height:15px;"> y la recta <img src="Practica04_eq01022779705135673921.png" alt="$l_3=((a,0),(b,0))$" style="width:110px;height:15px;">.</p><p>Si f es una funci&oacute;n integrable y <img src="Practica04_eq11157782079847341369.png" alt="${dF(x)\over dx}=f(x)$" style="width:76px;height:21px;"></p><p><img src="Practica04_eq05712592339302973017.png" alt="$\int_{a}^{b} f(x) \,dx= F(b)-F(a)$" style="width:160px;height:21px;"></p><p>Si yo quisiera, por ejemplo, integrar la funci&oacute;n <img src="Practica04_eq15674153454869612584.png" alt="$f(x)=e^{-x^2}$" style="width:72px;height:18px;"> en el intervalo (-1,1), me encontraria con un problema, pues la antiderivada no existe. Lo que se tendria que hacer en este caso es tratar de constuir un polinomio que se parezca a la funci&oacute;n original, integrariamos el polinomio y el resultado sera equivalente al resultado de la integral original pero aun tendria un error.</p><p>Para el caso de la funcion presentada podemos aproximar con el polinomio P(x)=1. Entonces:</p><pre class="codeinput">x=-1:0.001:1;
+x1=-100:0.01:100;
+g=@(x) 1.0.*(x&gt;=-1 &amp; x&lt;=1);
+h=@(x) 0.367879.*(x&gt;=-1 &amp; x&lt;=1);
+rectangle(<span class="string">'Position'</span>,[-1 0 2 1],<span class="string">'EdgeColor'</span>,<span class="string">'g'</span>);
+hold <span class="string">on</span>;
+fill(x,exp(-x.^2),<span class="string">'k'</span>);
+rectangle(<span class="string">'Position'</span>,[-1 0 2 0.367879],<span class="string">'FaceColor'</span>,<span class="string">'k'</span>);
+axis([-2 2 -0.1 1.5]);
+hold <span class="string">off</span>;
+grid <span class="string">on</span>
+ax = gca;
+ax.XAxisLocation = <span class="string">'origin'</span>;
+ax.YAxisLocation = <span class="string">'origin'</span>;
+ax.Box = <span class="string">'off'</span>;
+</pre><img vspace="5" hspace="5" src="Practica04_01.png" alt=""> <p><img src="Practica04_eq05567563080717150863.png" alt="$$\int_{-1}^{1} 1 \,dx= P(1)-P(-1)=1-(-1)=2$$" style="width:260px;height:37px;"></p><p>Pero si aplicamos uno de los metodos que se van a presentar podemos obtener que:</p><p><img src="Practica04_eq14219202686827185125.png" alt="$$\int_{-1}^{1} e^{-x^2} \,dx \approx 1.4936$$" style="width:128px;height:37px;"></p><p><b>Formulas de Newton-Cotes</b></p><p>Las formulas de Newton-Cotes utilizan los polinomios de interpolaci&oacute;n de Lagrenge para obtener la  soluci&oacute;n. Tenemos que reescribir a f(x) como</p><p><img src="Practica04_eq17038302434315732519.png" alt="$$f(x)=P(x) + \frac{f^{n+1} (\varepsilon(x))}{(n+1)!}(x-x_{0})(x-x_{1})...(x-x_{n})$$" style="width:335px;height:37px;"></p><p>siendo que <img src="Practica04_eq08503843126560240093.png" alt="$x \epsilon [a,b]$" style="width:42px;height:15px;">   y   <img src="Practica04_eq08638771887184391654.png" alt="$x_{n} \epsilon [a,b]$" style="width:48px;height:15px;"></p><p>De esta manera la formula cerrada Newton-Cotes de (n+1)puntos tendra</p><div><ul><li><img src="Practica04_eq07072927870935785866.png" alt="$x_{0} = a$" style="width:42px;height:10px;"></li><li><img src="Practica04_eq14506956588935167825.png" alt="$h = \frac{b-a}{n}$" style="width:47px;height:18px;"></li><li><img src="Practica04_eq09726590400184995486.png" alt="$x_{n} = b$" style="width:41px;height:13px;"></li><li><img src="Practica04_eq14201401934921084848.png" alt="$x_{i} =x_{0} + ih$" style="width:78px;height:13px;"></li></ul></div><p><img src="Practica04_eq05000741341179290008.png" alt="$$i=0,1,2,...n $$" style="width:87px;height:14px;"></p><p>Asi las obtenemos tres formulas, las cuales son;</p><p><b>1. Formula del trapecio (n=1)</b></p><p><img src="Practica04_eq02079075586864286486.png" alt="$$\int_{x_{0}}^{x_{1}} f(x) dx =\frac{h}{2} [f(x_{0})+f(x_{1})] - \frac{h^3}{12} f'' (\varepsilon) $$" style="width:266px;height:38px;"></p><p><img src="Practica04_eq04394327946535415830.png" alt="$$x_{0}<\varepsilon<x_{1}$$" style="width:73px;height:10px;"></p><p>Si aplicamos esta formula a la funci&oacute;n presentada al inicio, obtenemos lo siguiente:</p><p><img src="Practica04_eq02762274555414814259.png" alt="$$\int_{-1}^{1} e^{- x^2} dx =\frac{2}{2} [e^{-1} + e^{-1}] - \frac{8}{12} [-2 e^{- \varepsilon^2} (1 - 2 \varepsilon^2 )] $$" style="width:306px;height:37px;"></p><p><img src="Practica04_eq05981466551861421978.png" alt="$$0.7357 +\frac{4}{3} \varepsilon^2  (1 - 2 \varepsilon^2 ) $$" style="width:138px;height:30px;"></p><p><img src="Practica04_eq05211158756033756591.png" alt="$$-1<\varepsilon<1$$" style="width:70px;height:11px;"></p><p><b>2. Regla de Simpson (n=2)</b></p><p><img src="Practica04_eq01849731574196684892.png" alt="$$\int_{x_{0}}^{x_{2}} f(x) dx =\frac{h}{3} [f(x_{0}) + 4 f(x_{1} + f(x_{2})] - \frac{h^5}{90} f^4 (\varepsilon) $$" style="width:320px;height:38px;"></p><p><img src="Practica04_eq01072762658295576418.png" alt="$$x_{0}<\varepsilon<x_{2}$$" style="width:73px;height:10px;"></p><p>Lo aplicamos a nuestra funci&oacute;n para obtener:</p><p><img src="Practica04_eq11341385484204426536.png" alt="$$\int_{-1}^{1} e^{- x^2} dx =\frac{1}{3} [e^{-1} + 4 e^{0} + e^{-1}] - \frac{1}{90} [-4 e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$" style="width:401px;height:37px;"></p><p><img src="Practica04_eq13223942135048483313.png" alt="$$1.5785 +\frac{2}{45} e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$" style="width:217px;height:30px;"></p><p><img src="Practica04_eq05211158756033756591.png" alt="$$-1<\varepsilon<1$$" style="width:70px;height:11px;"></p><p><b>3. Regla de Simpson (n=2)</b></p><p><img src="Practica04_eq02978848279672297907.png" alt="$$\int_{x_{0}}^{x_{3}} f(x) dx =\frac{3}{8} h[f(x_{0}) + 3 f(x_{1} + 3 f(x_{2} + f(x_{3})] - \frac{3 h^5}{80} f^4 (\varepsilon) $$" style="width:389px;height:38px;"></p><p><img src="Practica04_eq08725487399856624710.png" alt="$$x_{0}<\varepsilon<x_{3}$$" style="width:73px;height:10px;"></p><p>Aplicamos la formula a nuestra funci&oacute;n para obtener</p><p><img src="Practica04_eq02076909891742812690.png" alt="$$\int_{-1}^{1} e^{- x^2} dx =\frac{3}{8} \frac{2}{3} [e^{-1} + 3 e^{- \frac{1}{4}} + 3 e^{- \frac{1}{4}} + e^{-1}] + \frac{3}{80} (\frac{2}{3})^5 [-4 e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$" style="width:498px;height:37px;"></p><p><img src="Practica04_eq02836463278049843895.png" alt="$$1.5261 +\frac{8}{405} e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$" style="width:224px;height:30px;"></p><p><img src="Practica04_eq05211158756033756591.png" alt="$$-1<\varepsilon<1$$" style="width:70px;height:11px;"></p><p><b>Formulas compuestas de Newton-Cotes</b></p><p>Las formulas compuestas de Newton-Cotes son las siguientes:</p><p><b>1. La regla compuesta del trapecio</b></p><p><img src="Practica04_eq07186663046809638444.png" alt="$$\int_{a}^{b} {f(x) dx =\frac{h}{2} [f(a)+ \sum_{j=1}^{n-1} f(x j) +f(b})] - \frac{b-a}{12} h^3 f'' (\mu)$$" style="width:357px;height:46px;"></p><p><img src="Practica04_eq10936788141610022278.png" alt="$$\mu \epsilon (a,b)$$" style="width:45px;height:15px;"></p><p>Donde tenemos que:</p><p>n = num de subintervalos.</p><p><img src="Practica04_eq04813558904940638747.png" alt="$$h= \frac{b-a}{n} (paso)$$&#xA;$$xj=a+jh$$&#xA;$$j =0,1,2....n$$" style="width:275px;height:30px;"></p><p>Para la funci&oacute;n que estamos usando:</p><p>n = 10 subintervalos</p><p><img src="Practica04_eq03322621102758552552.png" alt="$$h= \frac{1-(-1)}{10} = \frac{2}{10} = 0.2$$" style="width:162px;height:31px;"></p><p><img src="Practica04_eq08112939838872014871.png" alt="$$x_{0}=-1, x_{1}=-0.8, x_{2}=-0.6...x_{9}=0.8, x_{10}=1.0$$" style="width:322px;height:14px;"></p><p><img src="Practica04_eq05063579782940186174.png" alt="$$\int_{-1}^{1} e^{- x^2} dx = \frac{0.2}{2} [e^{-1} + 2\sum_{j=1}^{n-1} {e^{- x^2 j}} + e^{-1}] - \frac{2}{12}(0.2) [-2 e^{- \mu^2} (1 - 2\mu^2)]$$" style="width:433px;height:46px;"></p><p><img src="Practica04_eq10273042797124234374.png" alt="$$=1.4887 + 0.0133 e^{- \mu^2} (1 - 2\mu^2)$$" style="width:198px;height:19px;"></p><p><img src="Practica04_eq00968528376148912047.png" alt="$$-1 < \mu < 1$$" style="width:72px;height:14px;"></p><p><b>2. La regla compuesta de Simpson</b></p><p><img src="Practica04_eq10820853194429451699.png" alt="$$\int_{a}^{b} f(x) dx =\frac{h}{3} [f(a)+ 2 \sum_{j=1}^{(n/2)-1} {f(x_{2 j})} + 4 \sum_{j=1}^{n/2} {f(x_{2 j - 1})} +f(b)] - \frac{b-a}{180} h^4 f^4 (\mu)$$" style="width:490px;height:47px;"></p><p><img src="Practica04_eq10936788141610022278.png" alt="$$\mu \epsilon (a,b)$$" style="width:45px;height:15px;"></p><p>Donde se tiene que:</p><p>n = numero de subintervalos</p><p><img src="Practica04_eq04813558904940638747.png" alt="$$h= \frac{b-a}{n} (paso)$$&#xA;$$xj=a+jh$$&#xA;$$j =0,1,2....n$$" style="width:275px;height:30px;"></p><p>Aplicandolo en nuestra funci&oacute;n:</p><p>n = 10 subintervalos</p><p><img src="Practica04_eq03322621102758552552.png" alt="$$h= \frac{1-(-1)}{10} = \frac{2}{10} = 0.2$$" style="width:162px;height:31px;"></p><p><img src="Practica04_eq08112939838872014871.png" alt="$$x_{0}=-1, x_{1}=-0.8, x_{2}=-0.6...x_{9}=0.8, x_{10}=1.0$$" style="width:322px;height:14px;"></p><p><img src="Practica04_eq11899425636554545599.png" alt="$$\int_{-1}^{1} e^{- x^2} dx = \frac{0.2}{3} [e^{-1} + 2\sum_{j=1}^{4} {e^{- x^2_{2 j}}} + 4\sum_{j=1}^{5} {e^{- (x_{2 j -1})^2}} + e^{-1} + e^{-1}] - \frac{2}{180} (0.2)^4 [-4 e^{- \mu^2}(-4 \mu^4 + 12 \mu^2 -3 )]$$" style="width:645px;height:46px;"></p><p><img src="Practica04_eq15163435815318144125.png" alt="$$=1.4936 + 0.000031 (0.2)^4 [-4 e^{- \mu^2}(-4 \mu^4 + 12 \mu^2 -3 )]$$" style="width:334px;height:19px;"></p><p><img src="Practica04_eq00968528376148912047.png" alt="$$-1 < \mu < 1$$" style="width:72px;height:14px;"></p><p><b>Cuadratura Gaussiana</b></p><p>En el caso de la Cuadratura Gaussiana tenemos que</p><p><img src="Practica04_eq07722607061164025711.png" alt="$$\int_{-1}^{1} f(x) dx \approx \sum_{i=1}^{n} C_{i} f(x i)$$" style="width:158px;height:41px;"></p><p>Esta formula se puede ajustar a casos generales. De esta manera tenemos:</p><p><img src="Practica04_eq06764531508891638114.png" alt="$$\int_{a}^{b} f(x) dx =  \int_{-1}^{1} f(\frac{(b-a)t + b + a}{2}) dt $$" style="width:246px;height:37px;"></p><p>El metodo de la Cuadratra Gaussiana se apoya de la siguiente tabla:</p><p><img vspace="5" hspace="5" src="CuadGauss.png" alt=""> </p><p>Para el caso de nuestra funci&oacute;n, con n=2:</p><p><img src="Practica04_eq08970211222976532423.png" alt="$$\int_{-1}^{1} e^{- x^2} dx \approx e^{- (0.5773502692)^2} + e^{- (-0.5773502692)^2}$$" style="width:284px;height:37px;"></p><pre class="codeinput">exp(- (0.5773502692)^2) + exp(- (-0.5773502692)^2)
+</pre><pre class="codeoutput">
+ans =
+
+    1.4331
+
+</pre><p>Observemos que nuestro resultado es solo una aproximaci&oacute;n. Nuestra respuesta puede ser m&aacute;s precisa mientras m&aacute;s aumentemos a n.</p><h2 id="10">Problema 1 Grafique el problema PR04_1</h2><p>Se pide realizar la convoluci&oacute;n de las siguientes funciones:</p><p><img vspace="5" hspace="5" src="PR04_1.png" alt=""> </p><p>Podemos escribir las funciones como</p><p><img src="Practica04_eq18200972916705060501.png" alt="$$f(t)=e^{-t}(u(t)u(t-1))$$" style="width:150px;height:17px;"></p><p><img src="Practica04_eq05952369858156841443.png" alt="$$x(t)=t(u(t+1)-u(t-1))$$" style="width:178px;height:15px;"></p><p>Entonces escribimos el siguiente c&oacute;digo para resolverlo:</p><pre class="codeinput">f=@(t)exp(-t).*(t&gt;=0 &amp; t&lt;=1);
+x=@(t) t.*(t&gt;=-1 &amp; t&lt;=1);
+convconm(f,x)
+</pre><img vspace="5" hspace="5" src="Practica04_02.png" alt=""> <p><img vspace="5" hspace="5" src="Problema1.gif" alt=""> </p><h2 id="13">Problema 2 Grafique el problema PR05 e)</h2><p>Se pide realizar la autocorrelaci&oacute;n de la siguiente funci&oacute;n <img src="Practica04_eq16472861360041796869.png" alt="$$x(t)=u(t)-2u(t-3)+u(t-4)$" style="width:212px;height:15px;">$ Entonces escribimos el siguiente c&oacute;digo para resolverlo:</p><pre class="codeinput">g = @(t) 1*((t&gt;=0&amp;t&lt;3) - (t&gt;=3&amp;t&lt;4));
+h= @(t) 1*((t&gt;=-3&amp;t&lt;0) - (t&gt;=-4&amp;t&lt;-3));
+convconm(g,h)
+</pre><img vspace="5" hspace="5" src="Practica04_03.png" alt=""> <p><img vspace="5" hspace="5" src="Problema2.gif" alt=""> </p><p>El c&oacute;digo que usamos (convconm) para resolver los problemas 1 y 2 es el siguiente:</p><pre class="language-matlab">
+<span class="keyword">function</span> convconm(x,h)
+  figure (1) <span class="comment">% Se crea una figura para hacer las gr&aacute;ficas</span>
+  dtau = 0.005; <span class="comment">% Base de los rectangulos para realizar la integral </span>
+  hFig=figure(1);
+  fplot(x)
+  xl1=xlim;
+  fplot(h)
+  xl2=xlim;
+  t1=min(xl1(1),xl2(1));
+  t2=max(xl1(2),xl2(2));
+  tau = t1:dtau:t2; <span class="comment">% Intervalo de visualizaci&oacute;n del resultado</span>
+  ti = 0; <span class="comment">% Indice para el vector de resultados</span>
+  tvec = t1:.1:t2; <span class="comment">% traslaciones de t, cuantas integrales se calulan  </span>
+  y = NaN*zeros(1, length (tvec)); <span class="comment">% Resultados de acuerdo a cuantos t</span>
+  set(hFig, <span class="string">'Position'</span>, [0 0 1000 1000])
+  filename = <span class="string">'Problema1-2.gif'</span>;
+  ttt=1;
+  <span class="keyword">for</span> t = tvec <span class="comment">% Cantidad de traslaciones</span>
+      ti = ti+1; <span class="comment">% Indice para guardar el resultado (indice del tiempo)</span>
+      xh = x(t-tau).*h(tau); <span class="comment">% resultado de la multiplicaci&oacute;n </span>
+      lxh = length(xh); <span class="comment">% longitud del resultado</span>
+      y(ti) = sum(xh.*dtau); <span class="comment">% Base por altura, aproximaci&oacute;n de la integral</span>
+      subplot (2,1,1), <span class="comment">% gr&aacute;fica de 2 x 1 (primera)</span>
+      plot(tau, h(tau), <span class="string">'r-'</span>, tau, x(t-tau), <span class="string">'g--'</span>, t, 0, <span class="string">'ob'</span>); <span class="comment">%graficas </span>
+      axis ([tau(1) tau(end) -2.0 2.5]); <span class="comment">% l&iacute;mites de los ejes</span>
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],<span class="keyword">...</span>
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],<span class="keyword">...</span>
+      [.8 .8 .8], <span class="string">'edgecolor'</span>, <span class="string">'none'</span>);
+      xlabel(<span class="string">'\tau'</span>); <span class="comment">% Texto del eje X</span>
+      legend(<span class="string">'h(\tau)'</span>, <span class="string">'x(t-\tau)'</span>,<span class="string">'t'</span>,<span class="string">'h(\tau)x(t-\tau)'</span>)<span class="comment">% Caja de Texto  </span>
+      subplot (2, 1, 2)  <span class="comment">% gr&aacute;fica de 2 x 1 (segunda)</span>
+      plot (tvec, y, <span class="string">'k'</span>, tvec (ti), y(ti), <span class="string">'ok'</span>);
+      xlabel (<span class="string">'t'</span>); 
+      ylabel (<span class="string">'y(t) = \int h(\tau)x(t-\tau) d\tau'</span>);
+      axis ([tau(1) tau(end) -1 4]); <span class="comment">% l&iacute;mites del eje</span>
+      grid; <span class="comment">% malla</span>
+      drawnow; <span class="comment">% efecto de movimiento continuo</span>
+      frame = getframe(hFig); 
+        im = frame2im(frame); 
+        [imind,cm] = rgb2ind(im,256); 
+        <span class="comment">% Write to the GIF File </span>
+        <span class="keyword">if</span> ttt == 1 
+          imwrite(imind,cm,filename,<span class="string">'gif'</span>, <span class="string">'Loopcount'</span>,inf); 
+        <span class="keyword">else</span> 
+          imwrite(imind,cm,filename,<span class="string">'gif'</span>,<span class="string">'WriteMode'</span>,<span class="string">'append'</span>); 
+        <span class="keyword">end</span>
+        ttt=ttt+1;
+  <span class="keyword">end</span>
+ <span class="keyword">end</span>
+
+</pre><h2 id="16">Problema 3 Realice la simuaci&oacute;n de la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1-1 de Lathi</h2><p>Se nos pide que realizemos la convoluci&oacute;n de las siguiente se&ntilde;ales</p><p><img vspace="5" hspace="5" src="f_convcorr.png" alt=""> </p><p>Para poder resolverlo usaremos el m&eacute;todo de la cinta. Para resolverlo crearemos 2 vectores que contengan ls alturas de las se&ntilde;ales anteriores. Entonces tenemos:</p><pre class="codeinput">f=[0,-9,-6,-3,0,3,6,9,0];
+h=[0,0,4,2,0,2,4,0,0];
+n=-4:4;
+convdisc([n;f],[n;h])
+</pre><img vspace="5" hspace="5" src="Practica04_04.png" alt=""> <p><img vspace="5" hspace="5" src="Problema3.gif" alt=""> </p><h2 id="18">Problema 4 Realice la simuaci&oacute;n de la correlaci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1-1 de Lathi</h2><p>Ahora se nos pide que realizemos la correlaci&oacute;n de las se&ntilde;ales del problema anterior. En este caso la correlaci&oacute;n seria <img src="Practica04_eq15597544979900719228.png" alt="$r_{fg}$" style="width:18px;height:11px;">, siendo que f(n)es la se&ntilde;al (c) y h(n) es la se&ntilde;al (d). Como la correlaci&oacute;n no conmuta no podriamos usar la funci&oacute;n "convdisc" como en el problema anterior, pero tambien sabemos que la correlaci&oacute;n es la convoluci&oacute;n de la primer se&ntilde;al con la inversa de la segunda. Por lo tanto podemos solo invertir las alturas del vector h y usar la funci&oacute;n "convdisc".</p><pre class="codeinput">f=[0,-9,-6,-3,0,3,6,9,0];
+h=[0,0,4,2,0,2,4,0,0];
+n=-4:4;
+convdisc([n;f],[n;h])
+<span class="comment">% En este caso podemos ver que el resultado es el mismo del problema 3.</span>
+</pre><img vspace="5" hspace="5" src="Practica04_05.png" alt=""> <p><img vspace="5" hspace="5" src="Problema4.gif" alt=""> </p><p>El c&oacute;digo que usamos (convconm) para resolver los problemas 1 y 2 es el siguiente:</p><pre class="language-matlab">
+<span class="keyword">function</span> convdisc(x1,x2)
+    Tam1 = size(x1(1,:));
+    Tam2 = size(x2(1,:));
+    T1 = Tam1(2);
+    T2 = Tam2(2);
+    T3 = T1+T2-1;
+    vec1 = zeros(1,T1+2*T2-2);
+    vec2 = zeros(1,T1+2*T2-2);
+    Tec2 = -(T2+3):(T1+T2-6);
+    size(vec2);
+    size(Tec2);
+    x3=zeros(2,T3);
+    x3(1,:)=0:T3-1;
+    x3(1,:)=x3(1,:)+x1(1,1)+x2(1,1);
+    vec1(1,T2:T2+T1-1)=x1(2,:);
+    figure (1)
+    hFig = figure(1);
+    set(hFig, <span class="string">'Position'</span>, [0 0 1000 1000])
+    filename = <span class="string">'Problema3-4.gif'</span>;
+    ttt=1;
+    <span class="keyword">for</span> m=0:T1+T2-2
+        vec2(1,1+m:T2+m)=fliplr(x2(2,:));
+        x3(2,m+1)=sum(vec1.*vec2);
+        subplot(4,1,4)
+        stem(x3(1,:),x3(2,:),<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,2)
+        axis([-15 15  min(x3(2,:))-1 max(x3(2,:))+1])
+        ylim(<span class="string">'auto'</span>)
+        ylabel(<span class="string">'g[n]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        xlabel(<span class="string">'n'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        grid <span class="string">on</span>
+        subplot(4,1,1)
+        stem(x2(1,:),x2(2,:),<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2)
+        ylabel(<span class="string">'h[m]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        xlabel(<span class="string">'m'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        title(<span class="string">'CONVOLUCI&oacute;N'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        grid <span class="string">on</span>
+        axis([-15 15 min(x2(2,:))-1 max(x2(2,:))+1])
+        ylim(<span class="string">'auto'</span>)
+        subplot(4,1,2)
+        stem(x1(1,:),x1(2,:),<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,2)
+        ylabel(<span class="string">'f[m]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        xlabel(<span class="string">'m'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        grid <span class="string">on</span>
+        axis([-15 15 min(x1(2,:))-1 max(x1(2,:))+1])
+        ylim(<span class="string">'auto'</span>)
+        subplot(4,1,3)
+        stem(Tec2,vec2(1,:),<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,2)
+        axis([-15 15 min(vec2)-1 max(vec2)+1 ])
+        ylim(<span class="string">'auto'</span>)
+        ylabel(<span class="string">'h[n-m]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        xlabel(<span class="string">'m'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+        grid <span class="string">on</span>
+        drawnow;
+        pause(0.4)
+        vec2 = zeros(1,T1+2*T2-2);
+        frame = getframe(hFig); 
+        im = frame2im(frame); 
+        [imind,cm] = rgb2ind(im,256); 
+        <span class="comment">% Write to the GIF File </span>
+        <span class="keyword">if</span> ttt == 1 
+          imwrite(imind,cm,filename,<span class="string">'gif'</span>, <span class="string">'Loopcount'</span>,inf); 
+        <span class="keyword">else</span> 
+          imwrite(imind,cm,filename,<span class="string">'gif'</span>,<span class="string">'WriteMode'</span>,<span class="string">'append'</span>); 
+        <span class="keyword">end</span>
+        ttt=ttt+1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+</pre><h2 id="21">Problema 5 Realice la la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1-1 utilizando el comando conv de MATLAB</h2><p>Nuevamente usaremos las se&ntilde;ales (c) y (d) para resolver este problema. Igual que con los casos anteriores podemos usar el metodo de la cinta, pero esta vez usaremos el comando conv de MATLAB.</p><pre class="codeinput">f=[-9,-6,-3,0,3,6,9];
+h=[4,2,0,2,4];
+c=conv(f,h);
+subplot(1,1,1)
+stem(-5:5,c,<span class="string">'filled'</span>,<span class="string">'r'</span>)
+xlim([-6 6])
+</pre><img vspace="5" hspace="5" src="Practica04_06.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Practica 4: Convolución y Correlación de señales
+%
+% Integrantes:
+%
+% # Bernal Casas Hector Obed
+% # Cueto Chávez Leonardo Daniel
+% # Gutiérrez Alvirde José Martín
+% 
+%% Objetivos.
+% * Conocer métodos básicos de integración numérica
+% * Manipulación de instrucciones en MATLAB
+% * Simular convoluciones y correlaciones de señales continuas
+% * Simular convoluciones y correlaciones de señales discretas
+%
+%% Introducción.
+% Existen varios métodos numéricos para la simulación numérica de
+% integrales. A continuacion veremos 5 ejemplos de estos métodos numéricos.
+% 
+% *Teorema fundamental del Cálculo*
+% 
+% La integral $\int_{a}^{b} f(x) \,dx$ se asocia a un área definida por la
+% grafica de f(x), la recta $l_1=((a,0),(a,f(a)))$, la recta
+% $l_2=((b,0),(b,f(b)))$ y la recta $l_3=((a,0),(b,0))$.
+% 
+% Si f es una función integrable y ${dF(x)\over dx}=f(x)$
+% 
+% $\int_{a}^{b} f(x) \,dx= F(b)-F(a)$
+% 
+% Si yo quisiera, por ejemplo, integrar la función $f(x)=e^{-x^2}$ en el intervalo (-1,1), me
+% encontraria con un problema, pues la antiderivada no existe. Lo que se
+% tendria que hacer en este caso es tratar de constuir un polinomio que se
+% parezca a la función original, integrariamos el polinomio y el resultado
+% sera equivalente al resultado de la integral original pero aun tendria un error.
+% 
+% Para el caso de la funcion presentada podemos aproximar con el polinomio
+% P(x)=1. Entonces:
+%%
+x=-1:0.001:1;
+x1=-100:0.01:100;
+g=@(x) 1.0.*(x>=-1 & x<=1);
+h=@(x) 0.367879.*(x>=-1 & x<=1);
+rectangle('Position',[-1 0 2 1],'EdgeColor','g');
+hold on;
+fill(x,exp(-x.^2),'k');
+rectangle('Position',[-1 0 2 0.367879],'FaceColor','k');
+axis([-2 2 -0.1 1.5]);
+hold off;
+grid on
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
+ax.Box = 'off';
+%% 
+% $$\int_{-1}^{1} 1 \,dx= P(1)-P(-1)=1-(-1)=2$$
+% 
+% Pero si aplicamos uno de los metodos que se van a presentar podemos
+% obtener que:
+% 
+% $$\int_{-1}^{1} e^{-x^2} \,dx \approx 1.4936$$
+% 
+%%
+% *Formulas de Newton-Cotes*
+%
+% Las formulas de Newton-Cotes utilizan los polinomios de interpolación de Lagrenge para obtener la  solución.
+% Tenemos que reescribir a f(x) como
+% 
+% $$f(x)=P(x) + \frac{f^{n+1} (\varepsilon(x))}{(n+1)!}(x-x_{0})(x-x_{1})...(x-x_{n})$$
+% 
+% siendo que $x \epsilon [a,b]$   y   $x_{n} \epsilon [a,b]$
+% 
+% De esta manera la formula cerrada Newton-Cotes de (n+1)puntos tendra
+% 
+% * $x_{0} = a$ 
+% * $h = \frac{b-a}{n}$
+% * $x_{n} = b$
+% * $x_{i} =x_{0} + ih$
+% 
+% $$i=0,1,2,...n $$
+% 
+%
+% Asi las obtenemos tres formulas, las cuales son;
+%
+% 
+% *1. Formula del trapecio (n=1)*
+%
+% $$\int_{x_{0}}^{x_{1}} f(x) dx =\frac{h}{2} [f(x_{0})+f(x_{1})] - \frac{h^3}{12} f'' (\varepsilon) $$
+% 
+% $$x_{0}<\varepsilon<x_{1}$$
+% 
+% Si aplicamos esta formula a la función presentada al inicio, obtenemos lo siguiente:
+%
+% $$\int_{-1}^{1} e^{- x^2} dx =\frac{2}{2} [e^{-1} + e^{-1}] - \frac{8}{12} [-2 e^{- \varepsilon^2} (1 - 2 \varepsilon^2 )] $$
+%
+% $$0.7357 +\frac{4}{3} \varepsilon^2  (1 - 2 \varepsilon^2 ) $$
+% 
+% $$-1<\varepsilon<1$$
+%
+% 
+% *2. Regla de Simpson (n=2)*
+% 
+% $$\int_{x_{0}}^{x_{2}} f(x) dx =\frac{h}{3} [f(x_{0}) + 4 f(x_{1} + f(x_{2})] - \frac{h^5}{90} f^4 (\varepsilon) $$
+% 
+% $$x_{0}<\varepsilon<x_{2}$$
+%
+% Lo aplicamos a nuestra función para obtener:
+% 
+% $$\int_{-1}^{1} e^{- x^2} dx =\frac{1}{3} [e^{-1} + 4 e^{0} + e^{-1}] - \frac{1}{90} [-4 e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$
+%
+% $$1.5785 +\frac{2}{45} e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$
+% 
+% $$-1<\varepsilon<1$$
+%
+% 
+% *3. Regla de Simpson (n=2)*
+% 
+% $$\int_{x_{0}}^{x_{3}} f(x) dx =\frac{3}{8} h[f(x_{0}) + 3 f(x_{1} + 3 f(x_{2} + f(x_{3})] - \frac{3 h^5}{80} f^4 (\varepsilon) $$
+% 
+% $$x_{0}<\varepsilon<x_{3}$$
+%
+% Aplicamos la formula a nuestra función para obtener
+% 
+% $$\int_{-1}^{1} e^{- x^2} dx =\frac{3}{8} \frac{2}{3} [e^{-1} + 3 e^{- \frac{1}{4}} + 3 e^{- \frac{1}{4}} + e^{-1}] + \frac{3}{80} (\frac{2}{3})^5 [-4 e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$
+%
+% $$1.5261 +\frac{8}{405} e^{- \varepsilon^2} (-4 \varepsilon^4 + 12 \varepsilon^2 -3 )] $$
+% 
+% $$-1<\varepsilon<1$$
+%%
+% *Formulas compuestas de Newton-Cotes*
+%
+% Las formulas compuestas de Newton-Cotes son las siguientes:
+% 
+% *1. La regla compuesta del trapecio*
+% 
+% $$\int_{a}^{b} {f(x) dx =\frac{h}{2} [f(a)+ \sum_{j=1}^{n-1} f(x j) +f(b})] - \frac{b-a}{12} h^3 f'' (\mu)$$
+% 
+% $$\mu \epsilon (a,b)$$
+% 
+% Donde tenemos que:
+% 
+% n = num de subintervalos.
+%
+% $$h= \frac{b-a}{n} (paso)$$
+% $$xj=a+jh$$    
+% $$j =0,1,2....n$$
+% 
+% Para la función que estamos usando:
+% 
+% n = 10 subintervalos
+% 
+% $$h= \frac{1-(-1)}{10} = \frac{2}{10} = 0.2$$
+%
+% $$x_{0}=-1, x_{1}=-0.8, x_{2}=-0.6...x_{9}=0.8, x_{10}=1.0$$
+% 
+% $$\int_{-1}^{1} e^{- x^2} dx = \frac{0.2}{2} [e^{-1} + 2\sum_{j=1}^{n-1} {e^{- x^2 j}} + e^{-1}] - \frac{2}{12}(0.2) [-2 e^{- \mu^2} (1 - 2\mu^2)]$$
+%
+% $$=1.4887 + 0.0133 e^{- \mu^2} (1 - 2\mu^2)$$ 
+% 
+% $$-1 < \mu < 1$$
+% 
+% 
+%
+% *2. La regla compuesta de Simpson*
+% 
+% $$\int_{a}^{b} f(x) dx =\frac{h}{3} [f(a)+ 2 \sum_{j=1}^{(n/2)-1} {f(x_{2 j})} + 4 \sum_{j=1}^{n/2} {f(x_{2 j - 1})} +f(b)] - \frac{b-a}{180} h^4 f^4 (\mu)$$
+% 
+% $$\mu \epsilon (a,b)$$
+% 
+% Donde se tiene que:
+% 
+% n = numero de subintervalos 
+%
+% $$h= \frac{b-a}{n} (paso)$$
+% $$xj=a+jh$$ 
+% $$j =0,1,2....n$$
+% 
+% Aplicandolo en nuestra función:
+% 
+% n = 10 subintervalos
+% 
+% $$h= \frac{1-(-1)}{10} = \frac{2}{10} = 0.2$$
+% 
+% $$x_{0}=-1, x_{1}=-0.8, x_{2}=-0.6...x_{9}=0.8, x_{10}=1.0$$
+% 
+% $$\int_{-1}^{1} e^{- x^2} dx = \frac{0.2}{3} [e^{-1} + 2\sum_{j=1}^{4} {e^{- x^2_{2 j}}} + 4\sum_{j=1}^{5} {e^{- (x_{2 j -1})^2}} + e^{-1} + e^{-1}] - \frac{2}{180} (0.2)^4 [-4 e^{- \mu^2}(-4 \mu^4 + 12 \mu^2 -3 )]$$
+% 
+% $$=1.4936 + 0.000031 (0.2)^4 [-4 e^{- \mu^2}(-4 \mu^4 + 12 \mu^2 -3 )]$$ 
+% 
+% $$-1 < \mu < 1$$
+% 
+% 
+%%
+% *Cuadratura Gaussiana* 
+% 
+% En el caso de la Cuadratura Gaussiana tenemos que
+% 
+% $$\int_{-1}^{1} f(x) dx \approx \sum_{i=1}^{n} C_{i} f(x i)$$
+% 
+% Esta formula se puede ajustar a casos generales. De esta manera tenemos:
+% 
+% $$\int_{a}^{b} f(x) dx =  \int_{-1}^{1} f(\frac{(b-a)t + b + a}{2}) dt $$
+% 
+% El metodo de la Cuadratra Gaussiana se apoya de la siguiente tabla:
+% 
+% <<CuadGauss.png>>
+% 
+% Para el caso de nuestra función, con n=2:
+% 
+% $$\int_{-1}^{1} e^{- x^2} dx \approx e^{- (0.5773502692)^2} + e^{- (-0.5773502692)^2}$$
+%  
+%%
+exp(- (0.5773502692)^2) + exp(- (-0.5773502692)^2)
+%%
+% Observemos que nuestro resultado es solo una aproximación.
+% Nuestra respuesta puede ser más precisa mientras más aumentemos a n.
+%% Problema 1 Grafique el problema PR04_1
+% Se pide realizar la convolución de las siguientes funciones:
+%%
+% 
+% <<PR04_1.png>>
+% 
+% Podemos escribir las funciones como
+% 
+% $$f(t)=e^{-t}(u(t)u(t-1))$$
+% 
+% $$x(t)=t(u(t+1)-u(t-1))$$
+%
+% Entonces escribimos el siguiente código para resolverlo:
+
+f=@(t)exp(-t).*(t>=0 & t<=1);
+x=@(t) t.*(t>=-1 & t<=1);
+convconm(f,x)
+%%
+% 
+% <<Problema1.gif>>
+% 
+
+%% Problema 2 Grafique el problema PR05 e)
+% Se pide realizar la autocorrelación de la siguiente función
+% $$x(t)=u(t)-2u(t-3)+u(t-4)$$
+% Entonces escribimos el siguiente código para resolverlo:
+g = @(t) 1*((t>=0&t<3) - (t>=3&t<4));
+h= @(t) 1*((t>=-3&t<0) - (t>=-4&t<-3));
+convconm(g,h)
+%% 
+% 
+% <<Problema2.gif>>
+% 
+%% 
+% El código que usamos (convconm) para resolver los problemas 1 y 2 es el
+% siguiente:
+% 
+% <include>convconm.m</include>
+%% Problema 3 Realice la simuación de la convolución de las señales (c) con (d) del problema 3.1-1 de Lathi
+% Se nos pide que realizemos la convolución de las siguiente señales
+% 
+% <<f_convcorr.png>>
+% 
+% Para poder resolverlo usaremos el método de la cinta. Para resolverlo
+% crearemos 2 vectores que contengan ls alturas de las señales anteriores.
+% Entonces tenemos:
+f=[0,-9,-6,-3,0,3,6,9,0];
+h=[0,0,4,2,0,2,4,0,0];
+n=-4:4;
+convdisc([n;f],[n;h])
+%%
+% 
+% <<Problema3.gif>>
+% 
+
+%% Problema 4 Realice la simuación de la correlación de las señales (c) con (d) del problema 3.1-1 de Lathi
+% Ahora se nos pide que realizemos la correlación de las señales del
+% problema anterior. En este caso la correlación seria $r_{fg}$, siendo que
+% f(n)es la señal (c) y h(n) es la señal (d). Como la correlación no
+% conmuta no podriamos usar la función "convdisc" como en el problema
+% anterior, pero tambien sabemos que la correlación es la convolución de la
+% primer señal con la inversa de la segunda. Por lo tanto podemos solo
+% invertir las alturas del vector h y usar la función "convdisc".
+f=[0,-9,-6,-3,0,3,6,9,0];
+h=[0,0,4,2,0,2,4,0,0]; 
+n=-4:4;
+convdisc([n;f],[n;h])
+% En este caso podemos ver que el resultado es el mismo del problema 3.
+%%
+% 
+% <<Problema4.gif>>
+% 
+
+%% 
+% El código que usamos (convconm) para resolver los problemas 1 y 2 es el
+% siguiente:
+% 
+% <include>convdisc.m</include>
+%% Problema 5 Realice la la convolución de las señales (c) con (d) del problema 3.1-1 utilizando el comando conv de MATLAB
+% Nuevamente usaremos las señales (c) y (d) para resolver este problema.
+% Igual que con los casos anteriores podemos usar el metodo de la cinta,
+% pero esta vez usaremos el comando conv de MATLAB.
+f=[-9,-6,-3,0,3,6,9];
+h=[4,2,0,2,4];
+c=conv(f,h);
+subplot(1,1,1)
+stem(-5:5,c,'filled','r')
+xlim([-6 6])
+
+
+
+##### SOURCE END #####
+--></body></html>
